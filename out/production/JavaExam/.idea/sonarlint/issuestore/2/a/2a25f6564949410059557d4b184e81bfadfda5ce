@@ -1,0 +1,10 @@
+
+„
+java:S4973"<Strings and Boxed types should be compared using "equals()".(¿¸ğûıÿÿÿÿ8¦´íëÛ2J$7d67d302-4722-4a7d-aedc-9f23a4891f35
+r	java:S106"+Replace this use of System.out by a logger.(¿¸ğûıÿÿÿÿ8ÿéëÛ2J$d91df05c-d3d1-4c89-b910-0add437162b6
+ƒ
+java:S1854";Remove this useless assignment to local variable "weather".(Äºéõüÿÿÿÿ8ŞºÆëÛ2J$b5ee349e-219e-408a-9b57-bb5b0d9b9e10
+¯
+java:S1130"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(œû¿Ø8Û†ÇëÛ2J$84c4b3f4-6666-405c-bf2b-0e3f8b4f864e
+t
+java:S1481",Remove this unused "weather" local variable.(Äºéõüÿÿÿÿ8åºÆëÛ2J$9f307213-1ab8-4561-ac7f-4f13a6371a79

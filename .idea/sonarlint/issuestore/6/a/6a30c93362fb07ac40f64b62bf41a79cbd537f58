@@ -1,0 +1,12 @@
+
+r	java:S106"+Replace this use of System.out by a logger.(¹¦…‡úÿÿÿÿ8“²¸†Ã2J$7ddeb08a-f8bf-4218-a727-eafc691f66ed
+•
+java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹8Õ·º†Ã2J$82fe423e-e19e-4271-ba8a-646cedd22f7d
+{
+java:S1128"8Remove this unused import 'java.util.function.Function'.(»³Íž8öûº†Ã2J$a3ab48d8-7803-47e1-af75-0b59c7f71256
+|
+java:S1128"9Remove this unused import 'java.util.function.Predicate'.(ïÍ–¶8öûº†Ã2J$061ca9b6-e402-415a-a430-237044dd88b1
+{
+java:S1128"8Remove this unused import 'java.util.function.Supplier'.(†ïÿ‘8öûº†Ã2J$15c078ce-c99d-4b5c-8c09-df884fc058d0
+q
+java:S1144")Remove this unused private "sort" method.(“¶ì™þÿÿÿÿ8®¹¨†Ã2J$6a6448ba-bb12-437d-868e-12183f111303
