@@ -568,6 +568,28 @@ Autoboxing and Unboxing Variables
 - Autoboxing is the process of converting a primitive into its equivalent wrapper class,
 - unboxing is the process of converting a wrapper class into its equivalent primitive
 
+#### Widening and Narrowing Primitive Conversions
+Widening primitive conversions are usually done implicitly, whereas narrowing primitive conversions usually require a `cast`.
+It is not illegal to use a cast for a widening conversion. However, the compiler will flag any conversion that requires a cast if none has been specified.
+Regardless of any loss of magnitude or precision, widening and narrowing primitive conversions never result in a runtime exception.
+
+```java
+long year = 2020; // (1) Implicit widening: long <----- int, assigned 2020L
+int pi = (int) 3.14; // (2) Narrowing requires cast: int <----- double, assigned 3
+```
+
+#### Widening and Narrowing Reference Conversions
+The subtype–supertype relationship between reference types determines which conversions are permissible between them.
+Widening reference conversions are usually done implicitly, whereas narrowing reference conversions usually require a cast
+
+Widening reference conversions do not require any runtime checks and never result in an exception during execution.
+This is not the case for narrowing reference conversions, which require a runtime check and can throw a `ClassCastException` if the conversion is not legal.
+
+```java
+Object obj = "Upcast me"; // (1) Widening: Object <----- String
+String str = (String) obj; // (2) Narrowing requires cast: String <----- Object
+```
+
 While Java will implicitly cast a smaller primitive to a larger type, as well as autobox, it will not do both at the same time.
 ```java
 Long badGorilla = 8; // DOES NOT COMPILE

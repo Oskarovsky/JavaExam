@@ -99,6 +99,23 @@ Casting primitives is required any time when:
 - you are going from a larger numerical data type to a smaller numerical data type,
 - you are converting from a floating-point number to an integral value.
 
+#### Variable Increment and Decrement Operators
+Variable increment (`++`) and decrement (`--`) operators come in two flavors: prefix and postfix.
+These operators cannot be applied to a variable that is declared `final` and that has been initialized, as the side effect would change the value in such a variable.
+
+The prefix increment operator has the following semantics:
+```java
+i += 1;
+result = i;
+return result;
+```
+The postfix increment operator has the following semantics
+```java
+result = j;
+j += 1;
+return result;
+```
+
 #### Pattern Variables
 The type of the pattern variable must be a subtype of the variable on the left side of the
 expression. It also cannot be the same type. This rule does not exist for traditional `instanceof` operator expressions, though.
@@ -116,6 +133,20 @@ Integer value = 123;
 if(value instanceof Integer) {}
 if(value instanceof Integer data) {} // DOES NOT COMPILE
 ```
+
+#### Primitive Data Value Equality: ==, !=
+The equality operator == and the inequality operator != can be used to compare primitive data values, including boolean values. 
+Binary numeric promotion may be applied to the non-boolean operands of these equality operators.
+```java
+int year = 2002;
+boolean isEven = year % 2 == 0; // true.
+boolean compare = '1' == 1; // false. Binary numeric promotion applied.
+boolean test = compare == false; // true.
+```
+Analogous to the discussion for relational operators, mathematical expressions like `a = b = c` must be written using relational and logical/conditional operators.
+Since equality operators have left associativity, the evaluation of the expression `a == b == c` would proceed as follows: `((a == b) == c)`.
+
+#### Object Reference Equality: ==, !=
 
 ### 3 MAKING DECISIONS
 
@@ -567,6 +598,28 @@ System.out.println(s.hiss); // s is still a Snake
 Autoboxing and Unboxing Variables
 - Autoboxing is the process of converting a primitive into its equivalent wrapper class,
 - unboxing is the process of converting a wrapper class into its equivalent primitive
+
+#### Widening and Narrowing Primitive Conversions
+Widening primitive conversions are usually done implicitly, whereas narrowing primitive conversions usually require a `cast`.
+It is not illegal to use a cast for a widening conversion. However, the compiler will flag any conversion that requires a cast if none has been specified.
+Regardless of any loss of magnitude or precision, widening and narrowing primitive conversions never result in a runtime exception.
+
+```java
+long year = 2020; // (1) Implicit widening: long <----- int, assigned 2020L
+int pi = (int) 3.14; // (2) Narrowing requires cast: int <----- double, assigned 3
+```
+
+#### Widening and Narrowing Reference Conversions
+The subtype–supertype relationship between reference types determines which conversions are permissible between them.
+Widening reference conversions are usually done implicitly, whereas narrowing reference conversions usually require a cast
+
+Widening reference conversions do not require any runtime checks and never result in an exception during execution.
+This is not the case for narrowing reference conversions, which require a runtime check and can throw a `ClassCastException` if the conversion is not legal.
+
+```java
+Object obj = "Upcast me"; // (1) Widening: Object <----- String
+String str = (String) obj; // (2) Narrowing requires cast: String <----- Object
+```
 
 While Java will implicitly cast a smaller primitive to a larger type, as well as autobox, it will not do both at the same time.
 ```java
