@@ -1,8 +1,0 @@
-
-m	java:S106"+Replace this use of System.out by a logger.(á×É„8êËÌÅ2J$ca387619-6c59-4569-8709-940239fae2f1
-m	java:S106"+Replace this use of System.out by a logger.(¨¹®œ8„êËÌÅ2J$67773bd3-0018-4211-af40-5bb6f873332a
-r	java:S106"+Replace this use of System.out by a logger.(á¤›¸ùÿÿÿÿ8ˆêËÌÅ2J$64ec3458-dbc7-463c-9e2c-1314cb77f517
-m	java:S106"+Replace this use of System.out by a logger.(ìêÅÍ8‰êËÌÅ2J$72d6aa4a-59d1-49d3-b419-45511c219099
-™
-java:S3457 "Q%n should be used in place of \n to produce the platform-specific line separator.(»À’×úÿÿÿÿ8‹êËÌÅ2J$543f56b1-3830-46ff-b193-75cfbd377e51
-r	java:S106 "+Replace this use of System.out by a logger.(»À’×úÿÿÿÿ8‹êËÌÅ2J$e510aa3f-6025-4ba1-8921-5295db6f6b11

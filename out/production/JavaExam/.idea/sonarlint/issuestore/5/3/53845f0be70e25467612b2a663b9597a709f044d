@@ -1,11 +1,0 @@
-
-i
-java:S1452	"&Remove usage of generic wildcard type.(»ñ æ8››‡ÍÅ2J$c012ebb9-a9e9-46cc-9efa-91731554394d
-r	java:S106"+Replace this use of System.out by a logger.(ß÷†ëÿÿÿÿÿ8œ›‡ÍÅ2J$1691a5c4-eced-43d3-ba0d-47a5038b56b2
-¦
-java:S2142"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(Êûîùüÿÿÿÿ8ŒØ“ÍÅ2J$934eda22-31f3-4e54-bd1a-8e16f6be151c
-m	java:S106"+Replace this use of System.out by a logger.(ŸâÁ‹8›‡ÍÅ2J$1289d8be-229e-44e4-b947-e835fee58eb5
-~
-java:S2696"6Make the enclosing method "static" or remove this set.(§ãì”ıÿÿÿÿ8“Õ—ÍÅ2J$e7673518-913b-4b53-bc9c-5cd1ba927b55
-m	java:S106"+Replace this use of System.out by a logger.(Éç¥8òœ–ÍÅ2J$ad60c973-ef02-4fdc-a020-a38dc000ab7e
-r	java:S106"+Replace this use of System.out by a logger.(ĞÅ„òÿÿÿÿÿ8Š¯—ÍÅ2J$6959a514-0fe6-4937-bfb9-426aab972013

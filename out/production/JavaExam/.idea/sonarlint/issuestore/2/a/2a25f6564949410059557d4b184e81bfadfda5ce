@@ -1,10 +1,0 @@
-
-
-java:S4973"<Strings and Boxed types should be compared using "equals()".(›™×¯8¤çºÜ2J$8c6506c9-cfe5-4f21-a427-1401bf498b46
-x
-java:S1854"6Remove this useless assignment to local variable "x2".(Å8é–»Ü2J$57e79231-a8f3-4a5c-9343-cd838aa41342
-i
-java:S1481"'Remove this unused "x2" local variable.(Å8ê–»Ü2J$3442bc1e-896a-4291-9abf-642288e78df8
-m	java:S106"+Replace this use of System.out by a logger.(›™×¯8Òû¤Ü2J$baa8c4a1-c290-4c43-afe1-a1117dcc61d1
-¯
-java:S1130"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(œû¿Ø8Óû¤Ü2J$0471b59e-9a3e-4c2b-a19a-fb7ce3a42089
