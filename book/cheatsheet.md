@@ -55,12 +55,43 @@ On the exam, be wary of any local variable that is declared but not initialized 
 This is a common place on the exam that could result in a “Does not compile” answer.
 Be sure to check to make sure it’s initialized before it’s used on the exam.
 
+```java
+double weight = 10.0, thePrice;                   // (1) Local variables
+if (weight < 10.0) thePrice = 20.50;
+if (weight > 50.0) thePrice = 399.00;
+if (weight >= 10.0) thePrice = weight * 10.0;     // (2) Always executed
+System.out.println("The price is: " + thePrice);  // (3) Compile-time error!
+```
 Variables that are not local variables are defined either as instance variables or as class variables.
 Instance and class variables do not require you to initialize them.
 As soon as you declare these variables, they are given a default value.
 
 An instance variable - often called a field, is a value defined within a specific instance of an object.
 A class variable (aka static) - is one that is defined on the class level and shared among all instances of the class.
+
+#### Initializing Local Reference Variables
+
+In following example, the compiler complains that the local variable `importantMessage` used in the println statement may not be initialized. 
+If the variable `importantMessage` is set to the value `null`, the program will compile. 
+However, a runtime error (`NullPointerException`) will occur when the code is executed because the variable `importantMessage` will not denote any object.
+
+```java
+public class VerySmartClass {
+  public static void main(String[] args) {
+    String importantMessage;                       // Local reference variable
+    System.out.println(importantMessage.length()); // Compile-time error!
+  }
+}
+```
+
+#### Lifetime of Variables
+The lifetime of a variable — that is, the time a variable is accessible during execution is determined by the context in which it is declared.
+- `Instance variables`: members of a class, which are created for each object of the class. In other words, every object of the class will have its own copies of these variables, which are local to the object. 
+The values of these variables at any given time constitute the state of the object. Instance variables exist as long as the object they belong to is in use at runtime.
+- `Static variables`: members of a class, but which are not created for any specific object of the class, and therefore, belong only to the class. 
+They are created when the class is loaded at runtime and exist as long as the class is available at runtime.
+- `Local variables`: declared in methods, constructors, and blocks, and created for each execution of the method, constructor, or block. 
+After the execution of the method, constructor, or block completes, local variables are no longer accessible.
 
 #### var
 - you can only use this feature for local variables.
@@ -135,7 +166,7 @@ if(value instanceof Integer data) {} // DOES NOT COMPILE
 ```
 
 #### Primitive Data Value Equality: ==, !=
-The equality operator == and the inequality operator != can be used to compare primitive data values, including boolean values. 
+The equality operator `==` and the inequality operator `!=` can be used to compare primitive data values, including boolean values. 
 Binary numeric promotion may be applied to the non-boolean operands of these equality operators.
 ```java
 int year = 2002;
@@ -147,6 +178,9 @@ Analogous to the discussion for relational operators, mathematical expressions l
 Since equality operators have left associativity, the evaluation of the expression `a == b == c` would proceed as follows: `((a == b) == c)`.
 
 #### Object Reference Equality: ==, !=
+The equality operator `==` and the inequality operator `!=` can be applied to reference variables to test whether they refer to the same object.
+The equality and inequality operators are applied to object references to check whether two references denote the same object. 
+The state of the objects that the references denote is not compared.
 
 ### 3 MAKING DECISIONS
 
