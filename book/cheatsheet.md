@@ -292,18 +292,49 @@ Non-exhaustive switch expressions will result in a compile-time error. The defau
 
 ##### For loop:
 - `for( ; ; )` --> it will be infinite loop that will execute the same statement repeatedly
+- All sections in the `for(;;)` header are optional
 - the semicolons separating the three sections are required, as `for( )` without any semicolons will not compile.
 - You can declare multiple elements in a `for` loop, but the data type must be listed only once `for(int i=0, j=3; ...)`
 - The variables in the initialization block must all be of the same type:
+- All variables declared in the initialization section are local variables in the `for(;;)` statement
 
   `for(long y = 0, int z = 4; x < 5; x++) // DOES NOT COMPILE`
+
+Declaration statements cannot be mixed with expression statements in the initialization section, as is the case at (5) in the following example. 
+Factoring out the variable declaration, as at (6), leaves a legal comma-separated list of expression statements.
+
+```java
+// (5) Not legal and ugly:
+for (int i = 0, System.out.println("This won't do!"); flag; i++) {  // Error!
+  // loop body
+}
+
+// (6) Legal, but still ugly:
+int i;    // Declaration factored out.
+for (i = 0, System.out.println("This is legal!"); flag; i++) {      // OK.
+  // loop body
+}
+```
+
 
 ##### For-each loop:
 - right side must be an array or collection of items, such as a `List` or a `Set`.
 - it supports classes that implement `java.lang.Iterable` 
 - Although this includes many of the Collections Framework classes, not all of them implement `java.lang.Iterable`
+- The element variable is local to the loop block and is not accessible after the loop terminates. 
+  Also, changing the value of the current variable does not change any value in the array
 
 ![img_19.png](img_19.png)
+
+##### while
+
+Since the loop body can be any valid statement, inadvertently terminating each line with the empty statement (;) can give unintended results. 
+Always using a block statement as the loop body helps to avoid such problems.
+
+```java
+while (noSignOfLife()); // Empty statement as loop body!
+  keepLooking();        // Statement not in the loop body.
+```
 
 ##### do/while loop:
 - The variable that is declared within the body of the do/while statement is out of condition scope 
@@ -313,6 +344,62 @@ do {
     System.out.print(snake++ + " ");
 } while (snake > 1) // The code does not compile
 ```
+
+##### Labeled statements
+- A label is any valid identifier; it always immediately precedes the statement. 
+- The scope of a label is the statement prefixed by the label
+- A labeled statement is executed as if it were unlabeled, unless it is the break or continue statement.
+
+```java
+L1: try {                         // OK. Labeled try-catch-finally block.
+  int j = 10, k = 0;
+  L1: System.out.println(j/k);    // Not OK. Label L1 redeclared.
+} catch (ArithmeticException ae) {
+  L2: L3: ae.printStackTrace();   // OK. A statement can have multiple labels
+} finally {
+  L4: System.out.println("Finally done.");
+}
+```
+
+##### The break Statement
+
+The break statement comes in two forms: unlabeled and labeled.
+```java
+break;        // the unlabeled form
+break label;  // the labeled form
+```
+
+The unlabeled `break` statement terminates loops (for(;;), for(:), while, do-while) and switch statements, and transfers control out of the current context (i.e., the closest enclosing block)
+The rest of the statement body is skipped, and execution continues after the enclosing statement.
+
+A labeled `break` statement can be used to terminate any labeled statement that contains the break statement.
+Control is then transferred to the statement following the enclosing labeled statement.
+In the case of a labeled block, the rest of the block is skipped and execution continues with the statement following the block
+
+```java
+out:                      // Label.
+{                         // (1) Labeled block.
+// ...
+if (j == 10) break out;   // (2) Terminate block. Control to (3).
+System.out.println(j);    // Rest of the block not executed if j == 10.
+// ...
+}
+// (3) Continue here.
+```
+
+#### The continue Statement
+Like the break statement, the continue statement comes in two forms: unlabeled and labeled.
+```java
+continue;         // the unlabeled form
+continue label;   // the labeled form
+```
+
+The `continue` statement can be used only in a `for(;;)`, `for(:)`, `while`, or `do-while` loop to prematurely stop the current iteration of the loop body and proceed with the next iteration, if possible. 
+In the case of the `while` and `do-while` loops, the rest of the loop body is skipped — that is, the current iteration is stopped, with execution continuing with the loop condition. 
+In the case of the `for(;;)` loop, the rest of the loop body is skipped, with execution continuing with the update expression
+
+A labeled `continue` statement must occur within a labeled loop that has the same label. 
+Execution of the labeled `continue` statement then transfers control to the end of that enclosing labeled loop.
 
 ##### Pattern matching 
 - Pattern matching with an `if` statement is implemented using the `instanceof` operator.
