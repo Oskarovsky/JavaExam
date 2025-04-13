@@ -40,20 +40,15 @@ double reallyUgly = 1__________2; // Also compiles
 
 ### 1.1 Variables
 There are only four rules to remember for legal identifiers:
-- Identifiers must begin with a letter, a currency symbol, or a _ symbol. 
-  Currency symbols include dollar ($), yuan (¥), euro (€), and so on.
+- Identifiers must begin with a letter, a currency symbol, or a `_` symbol. 
+  Currency symbols include dollar `$`, yuan `¥`, euro `€`, and so on.
 - Identifiers can include numbers but not start with them.
-- A single underscore _ is not allowed as an identifier.
-- You cannot use the same name as a `Java reserved word.
+- A single underscore `_` is not allowed as an identifier.
+- You cannot use the same name as a Java reserved word.
   A reserved word is a special word that Java has held aside so that you are not allowed to use it.
   Java is case-sensitive, so you can use versions of the keywords that only differ in case.
 
 The exam will only ask you about ones that are commonly used, such as class and for.
-
-Local variables do not have a default value and must be initialized before use.
-On the exam, be wary of any local variable that is declared but not initialized in a single line.
-This is a common place on the exam that could result in a “Does not compile” answer.
-Be sure to check to make sure it’s initialized before it’s used on the exam.
 
 ```java
 double weight = 10.0, thePrice;                   // (1) Local variables
@@ -69,7 +64,13 @@ As soon as you declare these variables, they are given a default value.
 An instance variable - often called a field, is a value defined within a specific instance of an object.
 A class variable (aka static) - is one that is defined on the class level and shared among all instances of the class.
 
-#### Initializing Local Reference Variables
+#### Local Variables
+
+Local variables do not have a default value and must be initialized before use.
+On the exam, be wary of any local variable that is declared but not initialized in a single line.
+This is a common place on the exam that could result in a “Does not compile” answer.
+Be sure to check to make sure it’s initialized before it’s used on the exam.
+A variable declaration requires the type of the variable to be specified in the declaration but the type can be specified by the reserved type name `var`
 
 In following example, the compiler complains that the local variable `importantMessage` used in the println statement may not be initialized. 
 If the variable `importantMessage` is set to the value `null`, the program will compile. 
@@ -102,6 +103,27 @@ After the execution of the method, constructor, or block completes, local variab
 - `var` is not a reserved word and allowed to be used as an identifier.
 - The type of `var` is known at compile time.
 - `var` cannot be used in a multiple-variable assignment `var fall = 2, autumn = 2;`
+- Formal parameters in methods and constructors cannot be declared with `var`: `public static void main(var args)`
+
+```java
+// Class illustrates invalid use of the restricted type name var.
+public class InvalidVar {
+  var javaVendor = "Oracle"; // Not allowed in instance variable declaration.
+  static var javaVersion = 11; // Not allowed in static variable declaration.
+  public static void main(var args) { // Not allowed for method parameters.
+    var name; // Not allowed without initialization expression.
+    var objRef = null; // Literal null not allowed.
+    var x = 10.0, y = 20.0, z = 40; // Not allowed in compound declaration.
+    var vowelsOnly = {'a', 'e', 'i', 'o', 'u' }; // Array initializer not allowed
+    var attendance = new int[]; // Non-empty dimension required
+    var array3Dim = new String[][2][]; // Cannot specify an empty dimension
+    var letters[] = new char[]{'a', 'e', 'i', 'o', 'u' }; // var not allowed as element type
+    var prompt = prompt + 1; // Self-reference not allowed in initialization expression.
+    public static var getPlatformName() { // Not allowed as return type.
+      return "JDK";
+    }
+}
+```
 
 #### Garbage Collector
 - Garbage collection is never guaranteed to run
@@ -222,16 +244,21 @@ The following is a list of all data types supported by switch statements:
 - enum values
 - `var` (if the type resolves to one of the preceding types)
 
+Note that the type of the selector expression cannot be `boolean`, `long`, or floating point.
+
+All case labels (including the `default` label) are optional and can be defined in any order in the `switch` block
+
 ### 3.2 SWITCH EXPRESSION
 - we can assign the result of a `switch` expression to a variable result
 - switch expressions execute exactly one branch and do not use break statements between case statements.
 - all case and default branches must return a data type that is compatible with the assignment
 - semicolon is required after each switch expression
 - case statements can take multiple values, separated by commas
-- all the branches of a `switch` expression that do not throw an exception must return a consistent data type
-  (if the switch expression returns a value).
+- all the branches of a `switch` expression that do not throw an exception must return a consistent data type (if the switch expression returns a value).
 - if the switch expression returns a value, then every branch that isn’t an expression must yield a value.
 - default branch is required unless all cases are covered or no value is returned.
+- `break` or a `return` statement is not allowed in a switch expression
+
 ```java
 int measurement = 10;
 int size = switch(measurement) {
@@ -249,6 +276,11 @@ var name = switch(fish) {
   ...
  } // DOES NOT COMPILE (missing semicolon)
 ```
+
+The switch expression with the colon notation must be exhaustive, meaning the case labels, and if necessary the default label, must cover all values of the selector expression type. 
+Non-exhaustive switch expressions will result in a compile-time error. The default label is typically used to make the switch expression exhaustive.
+
+![img_137.png](img_137.png)
 
 ### 3.3 LOOPS
 - Curly braces `{}` required for block of multiple statements and optional for single statement
@@ -425,7 +457,18 @@ The `intern()` method will use an object in the string pool if one is present.
 
 ### 4.3 ARRAYS
 
-An array is a fixed-size area of memory on the heap that has space for primitives or pointers to objects.
+- An array is a fixed-size area of memory on the heap that has space for primitives or pointers to objects.
+- Arrays are objects
+- A position in the array is indicated by a non-negative integer value called the index.
+- The size of an array is fixed and cannot be changed after the array has been created.
+- The minimum value of `array_size` is `0`; in other words, zero-length arrays can be constructed.
+- When the array is constructed, all of its elements are initialized to the default value for element type
+
+Remember -> The type `int` is a primitive; `int[]` is an object.
+
+It is important to understand that the declaration does not actually create an array.
+Instead, it simply declares a reference that can refer to an array object.
+The `[]` notation can also be specified after a variable name to declare it as an array variable, but then it applies to just that variable.
 
 Arrays declaration:
 ```java
@@ -441,8 +484,6 @@ int[] vars3[]; // 2D array
 int[] vars4 [], space [][]; // a 2D AND a 3D array
 ```
 
-Remember -> The type `int` is a primitive; `int[]` is an object.
-
 The array does not allocate space for the `String` objects.
 Instead, it allocates space for a reference to where the objects are really stored.
 
@@ -453,11 +494,33 @@ int counter = mammals.length;
 Note that there are no parentheses after length since it is not a method.
 The length attribute does not consider what is in the array; it only considers how many slots have been allocated.  
 
+These two declarations declare `anIntArray` and `mediumPizzas` to be reference variables that can refer to arrays of `int` values and arrays of `Pizza` objects, respectively. 
+The variable `largePizzas` can denote an array of `Pizza` objects, but the variable `oneInteger`cannot denote an array of `int` values — it is a simple variable of the type `int`
+
+```java
+int anIntArray[], oneInteger;
+Pizza[] mediumPizzas, largePizzas;
+```
+
 You must each time define at least the first dimension of array:
 ```java
 int[][] test = new int[][]; // Error: java: array dimension missing
 int varka[][] = new int[3][]; // OK
 ```
+
+#### Anonymous Arrays
+Java has another array creation expression, called an anonymous array, which allows the concept of the array creation expression from (1) to be combined with the array initializer from (2), 
+so as to create and initialize an array (3)
+```java
+int[] intArray1 = new int[5];                 // (1)
+int[] intArray2 = {3, 5, 2, 8, 6};            // (2)
+int[] intArray3 = new int[] {3, 5, 2, 8, 6};  // (3)
+
+int[] daysInMonth;
+daysInMonth = {31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31};  // Compile-time error
+daysInMonth = new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; // OK
+```
+
 
 `Arrays.toString(tempArray)` --> Method for printing values from array  
 `Arrays.sort(tempArray)` --> Method for sorting values which are in array  
@@ -608,9 +671,13 @@ Varargs
 - if a method contains a varargs parameter, it must be the last parameter in the list
 - you can pass in an array, or you can list the elements of the array
 
+```java
+public static void publish(int n, String... data) {}
+```
+
 ### 5.2 STATIC DATA
 
-static
+`static`
 - you can think of a static variable as being a member of the single class object
 - exists independently of any instances of that class
 - all instances of class must share the same state
@@ -623,9 +690,17 @@ System.out.println(s.hiss); // s is still a Snake
 ```
 
 ### 5.3 PASSING DATA AMONG METHODS
-- Java is "pass-by-value" language
+- Java is `pass-by-value` language
+- an actual parameter is evaluated and its value from the stack is assigned to the corresponding formal parameter.
 - copy of the variable is made and the method receives that copy
-- assignments made in the method do not affect the caller
+- assignments made in the method do not affect the caller (The use of this value in the method has no influence on the actual parameter)
+
+![img_136.png](img_136.png)
+
+If the actual parameter expression evaluates to a reference value, the resulting reference value on the stack is assigned to the corresponding formal parameter reference at method invocation.
+In particular, if an actual parameter is a reference to an object, the reference value stored in the actual parameter is passed.
+Consequently, both the actual parameter and the formal parameter are aliases to the object denoted by this reference value during the invocation of the method.
+It implies that changes made to the object via the formal parameter will be apparent after the call returns.
 
 ### 5.4 OVERLOADING METHODS
 
@@ -685,8 +760,9 @@ Java will cast or autobox the value automatically, but not both at the same time
 - can be used to access any member of the class, including inherited members.
 - can be used in any instance method, constructor, or instance initializer block.
 - cannot be used when there is no implicit instance of the class, such as in a static method or static initializer block.
-- Accessing this.variableName can be performed from any instance method, constructor, or instance initializer,
+- Accessing `this.variableName` can be performed from any instance method, constructor, or instance initializer,
   (but not from a static method or static initializer)
+- Note that the `this` reference cannot be used in a static context, as static code is not executed in the context of any object.
 
 #### Calling the `super` reference
 - allows do the reference the version in the parent class instead of the current class
@@ -700,17 +776,16 @@ Remember, while 'this' includes current and inherited members, 'super' only incl
 - constructor parameters can be any valid class, array, or primitive type, including generics, but may not include var
 - class can have multiple constructors, as long as each constructor has a unique constructor signature
 - compiler only inserts the default constructor when no constructors are defined !!!
+- If a class defines any constructor, the default constructor is not generated.
 - constructors can be called only by writing new before the name of the constructor
 - Calling an overloaded constructor with this() may be used only as the first line of a constructor
 
-The first statement of every constructor is a call to a parent constructor using super() or
-another constructor in the class using this().
+The first statement of every constructor is a call to a parent constructor using `super()` or another constructor in the class using `this()`.
 
-When Java sees the new keyword, it allocates memory for the new object.
-It then looks for a constructor with a matching signature and calls it.
+When Java sees the `new` keyword, it allocates memory for the new object. It then looks for a constructor with a matching signature and calls it.
 
-Java compiler automatically inserts a call to the no-argument constructor super()
-if you do not explicitly call this() or super() as the first line of a constructor
+Java compiler automatically inserts a call to the no-argument constructor `super()`
+if you do not explicitly call `this()` or `super()` as the first line of a constructor
 
 #### Private constructor:
 Having only private constructors in a class tells the compiler not to provide a default no-argument constructor.
@@ -719,10 +794,10 @@ or the developer wants to have full control of all calls to create new instances
 
 #### Calling overloaded constructors with this()
 - when `this()` is used with parentheses, Java calls another constructor on the same instance of the class
-- `this` refers to an instance of the class, while 'this()' refers to a constructor call within the class
-- this() call must be the first statement in the constructor
+- `this` refers to an instance of the class, while `this()` refers to a constructor call within the class
+- `this()` call must be the first statement in the constructor
 - Java does not allow cyclic constructor calls
-- this() can only be called from a constructor in the same class
+- `this()` can only be called from a constructor in the same class
 
 #### Calling Parent Constructors with super()
 - `super` is used to reference members of the parent class, while the second, 'super()', calls a parent constructor.
@@ -740,10 +815,18 @@ or the developer wants to have full control of all calls to create new instances
 #### Initializing final Fields
 - final instance variables must be assigned a value
 - default value is only applied to a non-final
-- 'final' variables can be assigned values in the line in which they are declared or in an instance initializer
+- `final` variables can be assigned values in the line in which they are declared or in an instance initializer
 - final instance fields can also be set in a constructor
 - by the time the constructor completes, all final instance variables must be assigned a value exactly once
 - can assign a null value to final instance variables as long as they are explicitly set.
+
+```java
+public static void bake(final Pizza pizzaToBeBaked) {
+  pizzaPrice = pizzaPrice/2.0;    // Not allowed. Compile-time error!
+  pizzaPrice.meat = "chicken";    // Allowed
+  pizzaPrice = null;              // Not allowed. Compile-time error!
+}
+```
 
 #### Initializing Instances
 1. Initialize class X if it has not been previously initialized.
@@ -817,6 +900,29 @@ Common strategy for making a class immutable:
 3. Don’t define any setter methods.
 4. Don’t allow referenced mutable objects to be modified.
 5. Use a constructor to set all properties of the object, making a copy if needed.
+
+### 6.8 Static member declarations
+
+#### Static Members in Classes
+Static members belong to the class in which they are declared and are not part of any instance of the class.
+The class need not be instantiated to access its static members.
+
+Static code inside a class can access a static member in the following three ways:
+- By the static member’s simple name
+- By using the class name with the static member’s name
+- By using an object reference of the static member’s class with the static member’s name
+
+#### Static Fields in Classes
+Static fields (also called static variables and class variables) exist only in the class in which they are defined.
+When the class is loaded, static fields are initialized to their default values if no explicit initialization is specified.
+
+#### Static Methods in Classes
+- Static methods are also known as class methods.
+- A `static` method in a class can directly access other static members in the class by their simple name.
+- Static method cannot access instance (i.e., non-static) members of the class directly
+- Static methods can be overloaded analogous to instance methods
+- Static methods in a superclass cannot be overridden in a subclass as instance methods can, but they can be hidden by static methods in a subclass.
+- A type parameter of a generic class or interface cannot be used in a static method
 
 ## 7 BEYOND CLASSES
 
