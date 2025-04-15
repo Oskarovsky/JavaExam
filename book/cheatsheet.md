@@ -827,11 +827,12 @@ Java will cast or autobox the value automatically, but not both at the same time
 ## 6. CLASS DESIGN
 
 ### 6.1. INHERITANCE
-- superclass cannot be marked as a final
+- superclass cannot be marked as a `final`
 - Java supports single inheritance, by which a class may inherit from only one direct parent class,
 - Java supports multiple levels of inheritance, by which one class may extend another class, which in turn extends another class.
-- all classes inherit from a single class: java.lang.Object
+- all classes inherit from a single class: `java.lang.Object`
 - Object is the only class that doesn’t have a parent class.
+- A subclass cannot override inherited fields of the superclass, but it can hide them
 
 ### 6.2 CREATING CLASSES
 
@@ -929,6 +930,7 @@ public static void bake(final Pizza pizzaToBeBaked) {
 - Order of initialization is as follows: variable declarations, then initializers, and finally constructors.
 
 ### 6.5 Inheriting Members
+
 #### Overloading
 - Overloaded methods have the same method name but a different signature (the method parameters differ)
 - Overloaded methods can have different return types
@@ -940,22 +942,37 @@ public static void bake(final Pizza pizzaToBeBaked) {
   (the subclass cannot reduce the visibility of the parent method)
 - The method in the child class may not declare a checked exception
   that is new or broader than the class of any exception declared in the parent class method.
-- If the method returns a value, it must be the same or a subtype of the method in the parent class,
-  known as covariant return types.
+- If the method returns a value, it must be the same or a subtype of the method in the parent class, known as covariant return types.
 - you can’t override private methods since they are not inherited,
-  but you can redeclare a new method in the child class with the same or modified signature as the method in the parent class.
+  but you can redeclare a new method in the child class with the same signature as the method in the parent class.
 - the method defined in the child class must be marked as static if it is marked as static in a parent class.
 - Java doesn’t allow variables to be overridden (Variables can be hidden)
-- final methods cannot be overridden
+- final methods cannot be overridden (An attempt to override a final method will result in a compile-time error)
 - you cannot hide a static method in a child class if it is marked final
 - Overridden instance methods and hidden static methods must have the same signature (the name and method parameters must match),
 - overridden and hidden methods can have covariant return types
+- An instance method in a subclass cannot override a static method in the superclass. The compiler will flag such an attempt as an error. 
+  A static method is class specific and not part of any object, while overriding methods are invoked on behalf of objects of the subclass. 
+  However, a static method in a subclass can hide a static method in the superclass, but it cannot hide an instance method in the superclass.
 
 #### Covariant Return Types
 A simple test for covariance is the following: given an inherited return type A and an overriding return type B,
 can you assign an instance of B to a reference variable for A without a cast? If so, then they are covariant.
 This rule applies to primitive types and object types alike.
-If one of thereturn types is void, then they both must be void, as nothing is covariant with void except itself.
+If one of the return types is void, then they both must be void, as nothing is covariant with void except itself.
+
+```java
+// The overridden method in the superclass Light:
+public Light makeInstance() { ... } // (3) Instance method
+
+// The overriding method in the subclass TubeLight:
+@Override
+public TubeLight makeInstance() { ... } // (9) Overriding instance method at (3).
+```
+
+Note that the method signatures are the same, but the return type at (9) is a subtype of the return type at (3). 
+The method at (9) returns an object of the subtype TubeLight, whereas the method at (3) returns an object of the supertype Light. This is an example of covariant return.
+Note that covariant return applies only to reference types, not to primitive types.
 
 ### 6.6 Creating abstract classes
 - it is a class declared with the abstract modifier that cannot be instantiated directly and may contain abstract methods.
