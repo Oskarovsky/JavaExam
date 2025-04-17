@@ -888,11 +888,10 @@ or the developer wants to have full control of all calls to create new instances
 - `this()` can only be called from a constructor in the same class
 
 #### Calling Parent Constructors with super()
-- `super` is used to reference members of the parent class, while the second, 'super()', calls a parent constructor.
-- calling super() can only be used as the first statement of the constructor
-- compiler automatically inserts a call to the no-argument constructor super()
-  if you do not explicitly call this() or super() as the first line of a constructor
-- super() always refers to the most direct parent
+- `super` is used to reference members of the parent class, while the second, `super()`, calls a parent constructor.
+- calling `super()` can only be used as the first statement of the constructor
+- compiler automatically inserts a call to the no-argument constructor `super()` if you do not explicitly call `this()` or `super()` as the first line of a constructor
+- `super()` always refers to the most direct parent
 
 ### 6.4 Initializing Objects
 #### Initializing Classes (Order of initialization)
