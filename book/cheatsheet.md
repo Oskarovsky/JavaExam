@@ -899,13 +899,53 @@ or the developer wants to have full control of all calls to create new instances
 2. Process all static variable declarations in the order in which they appear in the class. (from parent first)
 3. Process all static initializers in the order in which they appear in the class. (from parent first)
 
-#### Initializing final Fields
+#### Final declarations
+The keyword `final` can be used in the following contexts in Java:
+- Declaring `final` classes
+- Declaring `final` members in classes, and in enum types
+- Declaring `final` local variables in methods and blocks
+- Declaring `final` static variables in interfaces
+
+#### Initializing final classes
+- A class can be declared final to indicate that it cannot be extended—that is, one cannot define subclasses of a final class
+- only a concrete class can be declared final (methods that are non-abstract, and therefore have an implementation)
+
+```java
+final class TubeLight extends Light { }
+class NeonLight extends TubeLight { } // Compile-time error!
+```
+
+#### Initializing final methods
+- A final method in a class is a concrete method and cannot be overridden or hidden in any subclass
+- Any normal class can declare a final method. The class need not be declared final.
+- Defining a new method using the same method signature is not possible with a final method which cannot be overridden or hidden
+
+```java
+class Light { 
+  public final void setWatts(int watt) { noOfWatts = watt; } // Final instance method
+}
+class TubeLight extends Light { 
+  @Override
+  public void setWatts(int watt) { noOfWatts = 2*watt; } // Cannot override final method
+}
+```
+
+#### Initializing final variables
 - final instance variables must be assigned a value
 - default value is only applied to a non-final
-- `final` variables can be assigned values in the line in which they are declared or in an instance initializer
+- A final variable of a primitive data type cannot change its value once it has been initialized.
+- A final variable of a reference type cannot change its reference value once it has been initialized
+- final variables can be assigned values in the line in which they are declared or in an instance initializer
 - final instance fields can also be set in a constructor
+- A final field must be explicitly initialized only once with an initializer expression, either in its declaration or in an initializer block
 - by the time the constructor completes, all final instance variables must be assigned a value exactly once
-- can assign a null value to final instance variables as long as they are explicitly set.
+- can assign a null value to final instance variables as long as they are explicitly set
+- any attempt to reassign a value will result in a compile-time error
+- Analogous to a non-final field, a final field with the same name can be hidden in a subclass—in contrast to final methods that can neither be overridden nor hidden 
+
+A final local variable need not be initialized in its declaration—that is, it can be a blank final local variable—but it must be initialized in the code before it is accessed.
+However, the compiler does not complain as long as the local variable is not accessed—this is in contrast to final fields that must be explicitly assigned a value,
+whether they are accessed or not.
 
 ```java
 public static void bake(final Pizza pizzaToBeBaked) {
@@ -914,6 +954,22 @@ public static void bake(final Pizza pizzaToBeBaked) {
   pizzaPrice = null;              // Not allowed. Compile-time error!
 }
 ```
+
+A formal parameter can be declared with the keyword `final` preceding the para-meter declaration in the method header. 
+A `final parameter` is a special case of a blank final local variable. 
+It is initialized with the value of the corresponding argument in the method call, before the code in the body of the method is executed.
+Declaring parameters as final prevents their values from being changed inadvertently in the method.
+```java
+public static void main(final String[] args) { // Final parameter
+  System.out.println("args length: " + args.length); // Access final field
+  args[0] = "1"; //  OK. Modifying array state.
+  System.out.println(Arrays.toString(args)); // Print array.
+  args = null; // Not OK. Final parameter.
+  args.length = 10; // Not OK. Final instance field.
+}
+```
+
+![img_138.png](img_138.png)
 
 #### Initializing Instances
 1. Initialize class X if it has not been previously initialized.
@@ -987,6 +1043,10 @@ Note that covariant return applies only to reference types, not to primitive typ
 - abstract method cannot be marked as both `abstract` and `static`
 - Subclasses of an abstract class must then override the abstract method to provide the method implementation; otherwise, they must also be declared as `abstract`.
 
+Any non-final class can be declared abstract. A class cannot be instantiated if the class is declared abstract. 
+The declaration of an abstract method cannot provide an implementation. The declaration of a non-abstract method must provide an implementation. 
+If any method in a class is declared abstract, then the class must be declared abstract
+
 ```java
 abstract class Light {
   //...
@@ -1045,8 +1105,7 @@ When the class is loaded, static fields are initialized to their default values 
 
 ### 7.1 Implementing interfaces
 Interface
-- An interface is an abstract data type that declares a list of abstract methods
-  that any class implementing the interface must provide.
+- An interface is an abstract data type that declares a list of abstract methods that any class implementing the interface must provide.
 - interfaces cannot be marked as final
 - interface methods could be private and public only
 - interface can extend multiple interfaces
