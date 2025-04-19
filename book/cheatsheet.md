@@ -982,9 +982,19 @@ Note that covariant return applies only to reference types, not to primitive typ
 - abstract method is always declared without a body
 - abstract class can extend a non-abstract class and another abstract class
 - abstract classes are initialized with constructors in the same way as non-abstract classes
-- Java does not permit a class or method to be marked both abstract and final
-- abstract method cannot be marked as both abstract and private
-- abstract method cannot be marked as both abstract and static
+- Java does not permit a class or method to be marked both `abstract` and `final`
+- abstract method cannot be marked as both `abstract` and `private`
+- abstract method cannot be marked as both `abstract` and `static`
+- Subclasses of an abstract class must then override the abstract method to provide the method implementation; otherwise, they must also be declared as `abstract`.
+
+```java
+abstract class Light {
+  //...
+  // Abstract instance method:
+  protected abstract double energyCost(int noOfHours)
+    throws InvalidHoursException;
+}
+```
 
 The abstract modifier cannot be placed after the class keyword in a class declaration or after the return type in a method declaration.
 ```java
@@ -992,6 +1002,10 @@ public class abstract Bear { // DOES NOT COMPILE
   public int abstract howl(); // DOES NOT COMPILE
 }
 ```
+
+In many ways abstract classes and interfaces are similar, and interfaces can be used with advantage in many cases. 
+However, if private state should be maintained with instance members, then abstract classes are preferred, as interfaces do not have any notion of state.
+Analogous to a normal class, an abstract class can implement multiple interfaces
 
 ### 6.7 Creating Immutable Objects
 Immutable Objects
