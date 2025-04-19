@@ -1104,20 +1104,20 @@ When the class is loaded, static fields are initialized to their default values 
 ## 7 BEYOND CLASSES
 
 ### 7.1 Implementing interfaces
-Interface
 - An interface is an abstract data type that declares a list of abstract methods that any class implementing the interface must provide.
-- interfaces cannot be marked as final
-- interface methods could be private and public only
+- interfaces cannot be marked as `final`
+- interface methods could be `private` and `public` only
 - interface can extend multiple interfaces
 - Java supports inheriting two abstract methods that have compatible method declarations
   By compatible, we mean a method can be written that properly overrides both inherited methods
 
 Inserting Implicit Modifiers
-- Interfaces are implicitly abstract
-- Interface variables are implicitly public, static, and final.
-- Interface methods without a body are implicitly abstract.
-- Interface methods without the private modifier are implicitly public.
-  (The last rule applies to abstract, default, and static interface methods)
+- Interfaces are implicitly `abstract`
+- The access modifier of interfaces can be `public` or `private`. Lack of an access modifier implies package accessibility.
+- Interface variables are implicitly `public`, `static`, and `final`.
+- Interface methods without a body are implicitly `abstract`.
+- Interface methods without the `private` modifier are implicitly `public`.
+  (The last rule applies to `abstract`, `default`, and `static` interface methods)
 
 Default Interface Method Definition Rules
 1. A default method may be declared only within an interface.
@@ -1142,6 +1142,8 @@ Tips on exam:
 ■ Treat abstract, default, and non-static private methods as belonging to an instance of the interface.
 ■ Treat static methods and variables as belonging to the interface class object.
 ■ All private interface method types are only accessible within the interface declaration.
+
+![img_139.png](img_139.png)
 
 ### 7.2 Working with enums
 - each enum value is initialized only once in the Java Virtual Machine (JVM).
@@ -1670,8 +1672,8 @@ public interface Comparable<T> {
 }
 ```
 
-- The Comparable interface has only one method
-- Any object can be Comparable
+- The `Comparable` interface has only one method
+- Any object can be `Comparable`
 - method is declared on the object that is being compared, and it takes one parameter
 - The number 0 is returned when the current object is equivalent to the argument to `compareTo()`.
 - A negative number (less than 0) is returned when the current object is smaller than the argument to `compareTo()`.
