@@ -68,3 +68,9 @@ E
 comparator/Stock.java,c/8/c80301fde2a1c90d091be3050244c5748e8297fa
 D
 comparator/Deal.java,7/9/7964d53e7dcc378c55d8d04b2b3a25dc86f4ebb6
+B
+interfaces/IA.java,6/0/60852428758c516a605f8b9f2aed07d9e2a578ff
+B
+interfaces/IB.java,a/5/a5f5dd10d8e1d6e643d5e1728505259b5ef9f569
+H
+interfaces/Combined.java,2/b/2b85f525cd92457d49129b9c2c937aa932efcc78

@@ -1138,6 +1138,18 @@ Private Interface Method Definition Rules
 2. A private static interface method may be called by any method within the interface definition.
 3. A private interface method may only be called by default and other private nonstatic methods within the interface definition.
 
+The interfaces extended by an interface (directly or indirectly) are called `superinterfaces`.
+A subinterface inherits from its superinterfaces all members of those superinterfaces, except for the following:
+- Any `abstract` or `default` methods that it overrides from its superinterfaces
+- Any `static` methods declared in its superinterfaces
+- Any `static` constants that it hides from its superinterfaces
+- Any `static` member types that it hides from its superinterfaces
+
+Thinking in terms of types, every reference type in Java is a subtype of the `java.lang.Object` class. 
+In turn, any interface type is also a subtype of the `Object` class, but it does not inherit any implementation from the `Object` class. 
+As mentioned earlier, an interface that has no direct superinterfaces implicitly declares a `public` `abstract` method for each public instance method in the `Object` class. 
+These `abstract` method declarations are inherited by all subinterfaces of such an interface.
+
 Tips on exam:
 ■ Treat abstract, default, and non-static private methods as belonging to an instance of the interface.
 ■ Treat static methods and variables as belonging to the interface class object.
