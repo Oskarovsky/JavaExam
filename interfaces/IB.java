@@ -1,3 +1,8 @@
 package interfaces;
 
-interface IB { double doIt(); } // (2)
+interface IB {
+
+    Double tester = 30d;
+
+    double doIt();
+} // (2)

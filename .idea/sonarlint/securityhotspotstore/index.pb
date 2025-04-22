@@ -74,3 +74,5 @@ B
 interfaces/IB.java,a/5/a5f5dd10d8e1d6e643d5e1728505259b5ef9f569
 H
 interfaces/Combined.java,2/b/2b85f525cd92457d49129b9c2c937aa932efcc78
+G
+interfaces/Invoker.java,2/a/2a786014fe71603a34101493ca04a21f0fd991e6
