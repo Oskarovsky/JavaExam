@@ -2,20 +2,8 @@ package interfaces;
 
 interface IA {
 
-    Integer x = 0;
+    int x_a = 2;
 
-    static void methodA() {
-        Double tester = IB.tester;
-        tester = 0d;
-        System.out.println("methodA");
-    }
-
-    private void helper() {
-        System.out.println("invoking helper");
-    }
-
-    default int doIt() {
-        helper();
-        return 33;
-    };
+    default boolean justDoIt(String msg) { return false; } // (1)
+    static boolean justDoIt(int i) { return true; } // (2)
 } // (1)

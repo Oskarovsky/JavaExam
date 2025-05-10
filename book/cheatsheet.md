@@ -550,6 +550,7 @@ The `intern()` method will use an object in the string pool if one is present.
 - The size of an array is fixed and cannot be changed after the array has been created.
 - The minimum value of `array_size` is `0`; in other words, zero-length arrays can be constructed.
 - When the array is constructed, all of its elements are initialized to the default value for element type
+- We can create an array of an interface type, but we cannot instantiate an interface (as is the case with abstract classes) `ISafeStack[] arrayOfISafeStack = new ISafeStack[5]`
 
 Remember -> The type `int` is a primitive; `int[]` is an object.
 

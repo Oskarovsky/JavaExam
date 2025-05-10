@@ -2,9 +2,8 @@ package interfaces;
 
 public class Invoker implements IA {
 
-    public static void main(String[] args) {
-        Invoker invoker = new Invoker();
-        invoker.doIt();
-    }
+    public boolean justDoIt(String msg) { return true; }
+    public boolean justDoIt(int i) { return false; }
+
 
 }
