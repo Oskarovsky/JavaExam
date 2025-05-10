@@ -550,6 +550,7 @@ The `intern()` method will use an object in the string pool if one is present.
 - The size of an array is fixed and cannot be changed after the array has been created.
 - The minimum value of `array_size` is `0`; in other words, zero-length arrays can be constructed.
 - When the array is constructed, all of its elements are initialized to the default value for element type
+- We can create an array of an interface type, but we cannot instantiate an interface (as is the case with abstract classes) `ISafeStack[] arrayOfISafeStack = new ISafeStack[5]`
 
 Remember -> The type `int` is a primitive; `int[]` is an object.
 
@@ -1108,10 +1109,10 @@ When the class is loaded, static fields are initialized to their default values 
 - interfaces cannot be marked as `final`
 - interface methods could be `private` and `public` only
 - interface can extend multiple interfaces
-- Java supports inheriting two abstract methods that have compatible method declarations
+- Java supports inheriting two abstract methods that have compatible method declarations.
   By compatible, we mean a method can be written that properly overrides both inherited methods
 
-Inserting Implicit Modifiers
+##### Inserting Implicit Modifiers
 - Interfaces are implicitly `abstract`
 - The access modifier of interfaces can be `public` or `private`. Lack of an access modifier implies package accessibility.
 - Interface variables are implicitly `public`, `static`, and `final`.
@@ -1119,27 +1120,103 @@ Inserting Implicit Modifiers
 - Interface methods without the `private` modifier are implicitly `public`.
   (The last rule applies to `abstract`, `default`, and `static` interface methods)
 
-Default Interface Method Definition Rules
-1. A default method may be declared only within an interface.
-2. A default method must be marked with the default keyword and include a method body.
-3. A default method is implicitly public.
-4. A default method cannot be marked abstract, final, or static.
-5. A default method may be overridden by a class that implements the interface.
+##### Default Interface Method Definition Rules
+1. A `default` method may be declared only within an interface.
+2. A `default` method must be marked with the default keyword and include a method body.
+3. A `default` method is implicitly `public` (whether the keyword public is specified or not).
+4. A `default` method cannot be marked `abstract`, `final`, or `static`.
+5. A `default` method may be overridden by a class that implements the interface.
 6. If a class inherits two or more default methods with the same method signature, then the class must override the method.
 
-Static Interface Method Definition Rules
-1. A static method must be marked with the static keyword and include a method body
-2. A static method without an access modifier is implicitly public.
-3. A static method cannot be marked abstract or final.
-4. A static method is not inherited and cannot be accessed in a class implementing the interface without a reference to the interface name
+A default method:
+- is not `abstract` because it provides an implementation; 
+- is not `final` because it can be overridden; 
+- is not `static` because it can be invoked only on instances of a class that implements the interface in which the default method is declared.
 
-Private Interface Method Definition Rules
-1. A private interface method must be marked with the private modifier and include a method body.
+The `default` method can also be overridden by providing an `abstract` method declaration.
+In the example below, this strategy effectively forces the subtypes of the interface `INewSlogan` and of the abstract class `JavaMaster` 
+to provide a new concrete implementation for the method, as one would expect for an abstract method.
+
+```java
+interface ISlogan { 
+  default void printSlogan() { // Default method.
+    System.out.println("Happiness is getting certified!");
+  }
+}
+interface INewSlogan extends ISlogan {
+  @Override
+  abstract void printSlogan(); // overrides with abstract method.
+}
+abstract class JavaMaster implements ISlogan {
+  @Override
+  public abstract void printSlogan(); // overrides with abstract method.
+}
+```
+
+Conflicts with multiple inheritance of implementation can arise when `default` methods are inherited from unrelated interfaces.
+For example, there could be the case where two interfaces define a default method with the same signature and another interface tries to extend these two interfaces.
+If this were allowed, the interface would inherit two implementations of a method with the same signature, which of course is not allowed — so the compiler flags it as an error.
+A way out of this dilemma is to override the conflicting default methods. 
+We can use abstract class that implements these interfaces and overrides the conflicting methods by providing an abstract method declaration of the default method. 
+Similarly class that implements both interfaces could override the conflicting methods by providing an implementation of the default method. 
+
+```java
+interface ICheapSlogan {
+  default void printSlogan() {
+    System.out.println("Override, don't overload.");
+  }
+}
+
+interface IFunnySlogan {
+  default void printSlogan() {
+    System.out.println("Catch exceptions, not bugs.");
+  }
+}
+
+interface IAvailableSlogan // Compile-time error.
+    extends ICheapSlogan, IFunnySlogan { }
+
+abstract class Wholesaler // Compile-time error.
+    implements ICheapSlogan, IFunnySlogan { }
+
+abstract class RetailSeller implements ICheapSlogan, IFunnySlogan {
+  @Override
+  public abstract void printSlogan(); // overrides both default methods
+}
+
+class NetSeller implements ICheapSlogan, IFunnySlogan {
+  @Override // Concrete method.
+  public void printSlogan() { // overrides both default methods
+    System.out.println("Think outside of the class.");
+}
+public void invokeDirect() {
+  ICheapSlogan.super.printSlogan(); // calls ICheapSlogan.printSlogan()
+  IFunnySlogan.super.printSlogan(); // calls IFunnySlogan.printSlogan()
+  }
+}
+```
+
+##### Static Interface Method Definition Rules
+1. A static method must be marked with the `static` keyword and include a method body
+2. A static method without an access modifier is implicitly `public`.
+3. A static method cannot be marked `abstract` or `final`.
+4. A static method is not inherited and cannot be accessed in a class implementing the interface without a reference to the interface name (unlike static methods in classes)
+
+##### Private Interface Method Definition Rules
+1. A private interface method must be marked with the `private` modifier and include a method body.
 2. A private static interface method may be called by any method within the interface definition.
 3. A private interface method may only be called by default and other private nonstatic methods within the interface definition.
 
+###### Constants in Interfaces
+- field declaration in an interface defines a `named constant`
+- such constants are considered to be `public`, `static`, and `final`. These modifiers are usually omitted from the declaration, but can be specified in any order. 
+- such a constant must be initialized with an initializer expression.
+- interface constant can be accessed by any client (a class or interface) using its qualified name (regardless of whether the client extends or implements its interface)
+- if the client is a class that implements this interface or is an interface that extends this interface, then the client can also access such constants directly by their simple names.
+  (Such a client inherits the interface constants)
+
 The interfaces extended by an interface (directly or indirectly) are called `superinterfaces`.
-A subinterface inherits from its superinterfaces all members of those superinterfaces, except for the following:
+A sub-interface inherits from its superinterfaces all members of those superinterfaces, except for the following:
 - Any `abstract` or `default` methods that it overrides from its superinterfaces
 - Any `static` methods declared in its superinterfaces
 - Any `static` constants that it hides from its superinterfaces
@@ -1151,9 +1228,9 @@ As mentioned earlier, an interface that has no direct superinterfaces implicitly
 These `abstract` method declarations are inherited by all subinterfaces of such an interface.
 
 Tips on exam:
-■ Treat abstract, default, and non-static private methods as belonging to an instance of the interface.
-■ Treat static methods and variables as belonging to the interface class object.
-■ All private interface method types are only accessible within the interface declaration.
+- Treat abstract, default, and non-static private methods as belonging to an instance of the interface.
+- Treat static methods and variables as belonging to the interface class object.
+- All private interface method types are only accessible within the interface declaration.
 
 ![img_139.png](img_139.png)
 

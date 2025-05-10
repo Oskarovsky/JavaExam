@@ -72,5 +72,7 @@ B
 interfaces/IA.java,6/0/60852428758c516a605f8b9f2aed07d9e2a578ff
 B
 interfaces/IB.java,a/5/a5f5dd10d8e1d6e643d5e1728505259b5ef9f569
-H
-interfaces/Combined.java,2/b/2b85f525cd92457d49129b9c2c937aa932efcc78
+G
+interfaces/Invoker.java,2/a/2a786014fe71603a34101493ca04a21f0fd991e6
+E
+arrays/ArrayMain.java,a/4/a466fda7e86e414ee4a3beee990826b203f6530d
